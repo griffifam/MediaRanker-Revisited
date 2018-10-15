@@ -1,18 +1,37 @@
 require 'test_helper'
+require 'pry'
 
 describe WorksController do
   describe "root" do
+
     it "succeeds with all media types" do
+
+      get root_path
+
       # Precondition: there is at least one media of each category
+      must_respond_with :success
 
     end
 
     it "succeeds with one media type absent" do
       # Precondition: there is at least one media in two of the categories
+      work = works(:movie)
 
+      work.destroy
+
+      get root_path
+      must_respond_with :success
     end
 
     it "succeeds with no media" do
+      works = Work.all
+      none = works.each do |work|
+        work.destroy
+      end
+
+      get root_path
+
+      must_respond_with :success
 
     end
   end
