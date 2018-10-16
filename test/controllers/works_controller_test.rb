@@ -10,29 +10,28 @@ describe WorksController do
 
       # Precondition: there is at least one media of each category
       must_respond_with :success
-
     end
 
     it "succeeds with one media type absent" do
       # Precondition: there is at least one media in two of the categories
-      work = works(:movie)
-
-      work.destroy
+      Work.where(category: "book").destroy_all
 
       get root_path
+
       must_respond_with :success
     end
 
     it "succeeds with no media" do
       works = Work.all
-      none = works.each do |work|
+      works.each do |work|
         work.destroy
       end
 
       get root_path
 
-      must_respond_with :success
+      expect{ get root_path }.must_change 'Work.count', 0
 
+      must_respond_with :success
     end
   end
 
@@ -43,6 +42,9 @@ describe WorksController do
     it "succeeds when there are works" do
       work = Work.all
 
+      get works_path
+
+      must_respond_with :success
     end
 
     it "succeeds when there are no works" do
@@ -57,8 +59,15 @@ describe WorksController do
       expect {
         get works_path
       }.must_change 'Work.count', 0
+
+      get works_path
+
+      expect {
+        get works_path
+      }.must_change 'Work.count', 0
     end
   end
+
 
   describe "new" do
     it "succeeds" do
