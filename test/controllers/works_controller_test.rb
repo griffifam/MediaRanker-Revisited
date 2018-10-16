@@ -59,12 +59,6 @@ describe WorksController do
       expect {
         get works_path
       }.must_change 'Work.count', 0
-
-      get works_path
-
-      expect {
-        get works_path
-      }.must_change 'Work.count', 0
     end
   end
 
@@ -77,6 +71,23 @@ describe WorksController do
   end
 
   describe "create" do
+    work_data = {
+      work: {
+        title: "new test work",
+        category: "movies"
+      }
+    }
+
+    # Assumptions
+
+
+    # Act
+    # expect {
+    #   post works_path, params: work_data
+    # }.must_change('Work.count', +1)
+
+    # Assert
+    # must_redirect_to book_path(Work.last)
   end
 
   it "renders bad_request and does not update the DB for bogus data" do
