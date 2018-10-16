@@ -41,34 +41,42 @@ describe WorksController do
 
   describe "index" do
     it "succeeds when there are works" do
+      work = Work.all
 
     end
 
     it "succeeds when there are no works" do
+      works = Work.all
 
+      works.each do |work|
+        work.destroy
+      end
+
+      get works_path
+
+      expect {
+        get works_path
+      }.must_change 'Work.count', 0
     end
   end
 
   describe "new" do
     it "succeeds" do
-
+      get new_work_path
+      must_respond_with :success
     end
   end
 
   describe "create" do
-    it "creates a work with valid data for a real category" do
-
-    end
-
-    it "renders bad_request and does not update the DB for bogus data" do
-
-    end
-
-    it "renders 400 bad_request for bogus categories" do
-
-    end
-
   end
+
+  it "renders bad_request and does not update the DB for bogus data" do
+  end
+
+  it "renders 400 bad_request for bogus categories" do
+  end
+
+
 
   describe "show" do
     it "succeeds for an extant work ID" do
