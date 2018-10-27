@@ -6,7 +6,7 @@ describe UsersController do
 
       get users_path
 
-      assert_response :success
+      must_respond_with :success
     end
 
     it "renders users" do
@@ -33,7 +33,19 @@ describe UsersController do
   end
 
   describe "show" do
+    it "responses with success when user is valid" do
+      dan = users(:dan)
 
+      get user_path(dan)
 
+      must_respond_with :success
+    end
+
+    it "renders not_found when user is invalid" do
+      user = User.count + 1
+      get user_path(user)
+
+      must_respond_with :not_found
+    end
   end
 end
